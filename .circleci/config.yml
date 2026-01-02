@@ -39,7 +39,7 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker:
-          version: 20.10.14
+          #version: 20.10.14
       - run:
           name: Build Docker Image
           command: |
@@ -54,4 +54,3 @@ workflows:
       - build_docker:
           requires:
             - run_tests
-            

@@ -1,0 +1,95 @@
+# Package Overview
+package_name: classification_model
+
+# Data Files
+raw_data_file: raw.csv
+training_data_file: train.csv
+test_data_file: test.csv
+
+
+target: target
+
+pipeline_name: xgb
+pipeline_save_file: xgb_model_output_v
+
+features:
+  - State
+  - Bank
+  - NAICS
+  - Term
+  - NoEmp
+  - NewExist
+  - CreateJob
+  - RetainedJob
+  - FranchiseCode
+  - UrbanRural
+  - RevLineCr
+  - LowDoc
+  - GrAppv
+  - CityRiskGroup
+ # - Bankrisk
+  - SBA_ratio
+
+
+# set train/test split
+test_size: 0.1
+
+# to set the random seed
+random_state: 0
+
+n_estimators: 300
+learning_rate: 0.05
+max_depth: 25
+subsample: 0.8
+colsample_bytree: 0.8
+min_child_weight: 5
+gamma: 0.1
+reg_alpha: 1.0
+reg_lambda: 5.0
+eval_metric: auc
+enable_categorical: True,
+tree_method: hist
+n_jobs: -1
+
+
+
+
+
+
+unused_fields:
+  - LoanNr_ChkDgt
+  - Name
+  - Zip
+  - BankState
+  - ApprovalDate
+  - ApprovalFY
+  - ChgOffPrinGr
+  - ChgOffDate
+  - DisbursementDate
+  - DisbursementGross
+  - SBA_Appv
+  - BalanceGross
+  - MIS_Status
+  - City
+
+
+numerical_vars:
+  #- age
+  - NAICS
+  - Term
+  - NoEmp
+  - NewExist
+  - CreateJob
+  - RetainedJob
+  - FranchiseCode
+  - UrbanRural
+  - GrAppv
+  #- Bankrisk
+  - SBA_ratio
+
+categorical_vars:
+  - State
+  - Bank
+  - RevLineCr
+  - LowDoc
+  - CityRiskGroup

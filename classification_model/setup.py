@@ -2,42 +2,41 @@
 # -*- coding: utf-8 -*-
 
 from pathlib import Path
-
 from setuptools import find_packages, setup
 
 # Package meta-data.
 NAME = 'classification_model'
 DESCRIPTION = "Example of classification model"
-URL = "https://github.com/trainindata/deploying-machine-learning-models"
+URL = "https://github.com/Katanovich/SBA_credit_approval_MLOPS" # Твой репозиторий
 EMAIL = "vera-vla.edu@gmail.com"
 AUTHOR = "Khegay, Kim, Kim"
 REQUIRES_PYTHON = ">=3.7.0"
 
-
-include_package_data=True  ### Optional
-# ------------------------------------------------
-# Except, perhaps the License and Trove Classifiers!
-# Trove Classifiers: https://pypi.org/classifiers/
-# If you do change the License, remember to change the
-# Trove Classifier for that!
 long_description = DESCRIPTION
 
-# Load the package's VERSION file as a dictionary.
-about = {}
+
 ROOT_DIR = Path(__file__).resolve().parent
+
+
+PACKAGE_DIR = ROOT_DIR
+
+
 REQUIREMENTS_DIR = ROOT_DIR / 'requirements'
-PACKAGE_DIR = ROOT_DIR / 'classification_model'
-with open(PACKAGE_DIR / "VERSION") as f:
+
+
+about = {}
+
+with open(ROOT_DIR / "VERSION") as f:
     _version = f.read().strip()
     about["__version__"] = _version
 
-
-# What packages are required for this module to be executed?
+# Функция для чтения требований
 def list_reqs(fname="requirements.txt"):
-    with open(REQUIREMENTS_DIR / fname) as fd:
+    # Проверяем, есть ли папка requirements, если нет - ищем в корне папки
+    path = REQUIREMENTS_DIR / fname if REQUIREMENTS_DIR.exists() else ROOT_DIR / fname
+    with open(path) as fd:
         return fd.read().splitlines()
 
-# Where the magic happens:
 setup(
     name=NAME,
     version=about["__version__"],
@@ -51,21 +50,10 @@ setup(
     packages=find_packages(exclude=("tests",)),
     package_data={"classification_model": ["VERSION"]},
     install_requires=list_reqs(),
-    extras_require={},
     include_package_data=True,
     license="BSD-3",
     classifiers=[
-        # Trove classifiers
-        # Full list: https://pypi.python.org/pypi?%3Aaction=list_classifiers
-        "License :: OSI Approved :: MIT License",
-        "Programming Language :: Python",
-        "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.7",
-        "Programming Language :: Python :: 3.8",
-        "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
-        "Programming Language :: Python :: 3.11",
         "Programming Language :: Python :: Implementation :: CPython",
-        "Programming Language :: Python :: Implementation :: PyPy",
     ],
 )

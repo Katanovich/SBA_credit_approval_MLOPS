@@ -6,21 +6,29 @@ jobs:
       - image: cimg/python:3.10
     steps:
       - checkout
+      # Восстанавливаем кэш библиотек, если он есть
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "Credit_Api/requirements.txt" }}
+            - v1-dependencies-
       - run:
           name: Install dependencies
           command: |
             python3 -m venv venv
             . venv/bin/activate
             pip install --upgrade pip
-            # Указываем точный путь, который мы увидели на скриншоте
             pip install -r Credit_Api/requirements.txt
-
-
+      # Сохраняем установленные библиотеки в кэш
+      - save_cache:
+          paths:
+            - ./venv
+          key: v1-dependencies-{{ checksum "Credit_Api/requirements.txt" }}
       - run:
           name: Run Pytest
           command: |
             . venv/bin/activate
-            pytest classification_model/tests
+            # Запускаем тесты с отображением логов
+            pytest classification_model/tests -v --log-cli-level=INFO
 
   build_docker:
     docker:
@@ -32,7 +40,7 @@ jobs:
       - run:
           name: Build Docker Image
           command: |
-            # Собираем образ. Точка в конце важна!
+            # Собираем образ из корня проекта
             docker build -t loan-prediction-api:latest .
 
 workflows:
@@ -43,3 +51,4 @@ workflows:
       - build_docker:
           requires:
             - run_tests
+            

@@ -22,12 +22,8 @@ jobs:
           name: Run tests
           command: |
             . venv/bin/activate
-            # Проверяем, есть ли вообще тесты перед запуском
-            if [ -d "classification_model/tests" ]; then
-              pytest classification_model/tests
-            else
-              echo "Tests directory not found, skipping..."
-            fi
+            # Указываем путь к папке тестов явно
+            pytest classification_model/tests -v
 
 workflows:
   test_all:

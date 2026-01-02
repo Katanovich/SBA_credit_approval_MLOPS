@@ -1,13 +1,16 @@
+import numpy as np
 from classification_model.predict import make_prediction
 
 
 def test_make_prediction_returns_correct_format():
     # 1. Подготовка тестовых данных
-    # Добавляем [], чтобы значения стали списками (1 строка данных)
+    # Нужно передать ВСЕ колонки, которые модель использует в препроцессинге
     test_data = {
         "ApplicantIncome": [5000],
         "LoanAmount": [120],
         "Credit_History": [1.0],
+        "NAICS": [236115],  # Добавили отсутствующее поле (пример кода NAICS)
+        # Если модель потребует что-то еще, добавь по аналогии ниже
     }
 
     # 2. Вызов функции предсказания
@@ -15,5 +18,6 @@ def test_make_prediction_returns_correct_format():
 
     # 3. Проверки
     assert results.get("predictions") is not None
-    # Так как мы используем Dummy-модель, она вернет [1]
+    assert results.get("errors") is None
+    # Проверяем, что получили предсказание от нашей dummy-модели
     assert results["predictions"][0] == 1

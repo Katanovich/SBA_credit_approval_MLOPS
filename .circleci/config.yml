@@ -1,7 +1,6 @@
 version: 2.1
 
 jobs:
-  # 1. Проверь, чтобы это имя было ровно таким
   run_tests:
     docker:
       - image: cimg/python:3.10
@@ -9,12 +8,19 @@ jobs:
       - checkout
       - run:
           name: Install dependencies
-          command: pip install -r requirements.txt
+          command: |
+            python3 -m venv venv
+            . venv/bin/activate
+            pip install --upgrade pip
+            # Если requirements.txt лежит в корне, оставь так. 
+            # Если он внутри classification_model, замени путь ниже:
+            pip install -r requirements.txt
       - run:
           name: Run Pytest
-          command: pytest classification_model/tests
+          command: |
+            . venv/bin/activate
+            pytest classification_model/tests
 
-  # 2. Второе задание для сборки Docker
   build_docker:
     docker:
       - image: cimg/python:3.10
@@ -25,13 +31,15 @@ jobs:
       - run:
           name: Build Docker Image
           command: |
+            # Собираем образ. Точка в конце важна!
             docker build -t loan-prediction-api:latest .
 
 workflows:
+  version: 2
   test-and-build:
     jobs:
-      # ИМЕНА ЗДЕСЬ ДОЛЖНЫ СОВПАДАТЬ С ИМЕНАМИ ВЫШЕ
       - run_tests
       - build_docker:
           requires:
-            - run_tests # Сборка начнется только если тесты прошли
+            - run_tests
+            

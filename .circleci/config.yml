@@ -1,9 +1,20 @@
 version: 2.1
 
 jobs:
-  test_model:
-    # ... твой текущий код тестов здесь ...
+  # 1. Проверь, чтобы это имя было ровно таким
+  run_tests:
+    docker:
+      - image: cimg/python:3.10
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: pip install -r requirements.txt
+      - run:
+          name: Run Pytest
+          command: pytest classification_model/tests
 
+  # 2. Второе задание для сборки Docker
   build_docker:
     docker:
       - image: cimg/python:3.10
@@ -17,11 +28,10 @@ jobs:
             docker build -t loan-prediction-api:latest .
 
 workflows:
-  version: 2
   test-and-build:
     jobs:
-      - test_model
+      # ИМЕНА ЗДЕСЬ ДОЛЖНЫ СОВПАДАТЬ С ИМЕНАМИ ВЫШЕ
+      - run_tests
       - build_docker:
           requires:
-            - test_model # Сборка начнется ТОЛЬКО если 5 тестов прошли
-            
+            - run_tests # Сборка начнется только если тесты прошли

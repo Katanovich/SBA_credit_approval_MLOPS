@@ -1,7 +1,11 @@
+import numpy as np
+import pandas as pd
 from classification_model.predict import make_prediction
 
-def test_make_prediction_returns_correct_format():
 
+def test_make_prediction_returns_correct_format():
+    # 1. Подготовка тестовых данных
+    # Мы включаем абсолютно все поля, которые твоя модель запрашивала в логах ошибок
     test_data = {
         "ApplicantIncome": [5000],
         "LoanAmount": [120],
@@ -23,11 +27,16 @@ def test_make_prediction_returns_correct_format():
         "LowDoc": ["N"],
     }
 
-
+    # 2. Вызов функции предсказания
     results = make_prediction(input_data=test_data)
 
-
+    # 3. Проверки (Assertions)
+    # Проверяем, что словарь результатов содержит предсказания и не содержит ошибок
     assert results.get("predictions") is not None
     assert results.get("errors") is None
+
+    # Проверяем тип данных (должен быть список или массив numpy)
+    assert isinstance(results.get("predictions"), (list, np.ndarray))
+
+    # Проверяем конкретное значение (наша dummy-модель всегда возвращает 1)
     assert results["predictions"][0] == 1
-    

@@ -4,8 +4,7 @@ from classification_model.predict import make_prediction
 
 
 def test_make_prediction_returns_correct_format():
-    # 1. Подготовка тестовых данных
-    # Мы включаем абсолютно все поля, которые твоя модель запрашивала в логах ошибок
+
     test_data = {
         "ApplicantIncome": [5000],
         "LoanAmount": [120],
@@ -14,8 +13,8 @@ def test_make_prediction_returns_correct_format():
         "SBA_Appv": [10000],
         "GrAppv": [20000],
         "CityRiskGroup": [1],
-        "State": ["CA"],
-        "Bank": ["CHASE"],
+        "State": [1],
+        "Bank": [1],
         "Term": [12],
         "NoEmp": [5],
         "NewExist": [1],
@@ -23,8 +22,8 @@ def test_make_prediction_returns_correct_format():
         "RetainedJob": [5],
         "FranchiseCode": [0],
         "UrbanRural": [1],
-        "RevLineCr": ["N"],
-        "LowDoc": ["N"],
+        "RevLineCr": [0],
+        "LowDoc": [0],
     }
 
     # 2. Вызов функции предсказания

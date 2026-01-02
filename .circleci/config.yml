@@ -6,7 +6,6 @@ jobs:
       - image: cimg/python:3.10
     steps:
       - checkout
-      # Восстанавливаем кэш библиотек
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "Credit_Api/requirements.txt" }}
@@ -17,11 +16,8 @@ jobs:
             python3 -m venv venv
             . venv/bin/activate
             pip install --upgrade pip
-            # Установка из твоего файла
             pip install -r Credit_Api/requirements.txt
-            # Гарантируем наличие pytest для тестов
             pip install pytest
-      # Сохраняем библиотеки в кэш
       - save_cache:
           paths:
             - ./venv
@@ -30,7 +26,6 @@ jobs:
           name: Run Pytest
           command: |
             . venv/bin/activate
-            # Запуск тестов через модуль python
             python3 -m pytest classification_model/tests -v --log-cli-level=INFO
 
   build_docker:
@@ -38,12 +33,11 @@ jobs:
       - image: cimg/python:3.10
     steps:
       - checkout
-      - setup_remote_docker:
-          #version: 20.10.14
+      # Убрали конкретную версию, чтобы CircleCI выбрал лучшую сам
+      - setup_remote_docker
       - run:
           name: Build Docker Image
           command: |
-            # Собираем образ (убедись, что Dockerfile в корне MLOPS/)
             docker build -t loan-prediction-api:latest .
 
 workflows:
@@ -54,3 +48,4 @@ workflows:
       - build_docker:
           requires:
             - run_tests
+            

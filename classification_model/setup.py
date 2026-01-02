@@ -24,18 +24,37 @@ PACKAGE_DIR = ROOT_DIR
 REQUIREMENTS_DIR = ROOT_DIR / 'requirements'
 
 
+# Чтение версии
 about = {}
+VERSION_PATH = ROOT_DIR / "VERSION"
+if not VERSION_PATH.exists():
+    VERSION_PATH = ROOT_DIR / "classification_model" / "VERSION"
 
-with open(ROOT_DIR / "VERSION") as f:
-    _version = f.read().strip()
-    about["__version__"] = _version
+with open(VERSION_PATH) as f:
+    about["__version__"] = f.read().strip()
 
-# Функция для чтения требований
+
 def list_reqs(fname="requirements.txt"):
-    # Проверяем, есть ли папка requirements, если нет - ищем в корне папки
-    path = REQUIREMENTS_DIR / fname if REQUIREMENTS_DIR.exists() else ROOT_DIR / fname
-    with open(path) as fd:
-        return fd.read().splitlines()
+    # Проверяем 3 места, где может лежать файл:
+    # 1. Прямо в папке с setup.py
+    # 2. В папке requirements/ рядом с setup.py
+    # 3. Во вложенной папке classification_model/
+
+    possible_paths = [
+        ROOT_DIR / fname,
+        ROOT_DIR / "requirements" / fname,
+        ROOT_DIR / "classification_model" / fname
+    ]
+
+    for path in possible_paths:
+        if path.exists():
+            with open(path) as fd:
+                return fd.read().splitlines()
+
+    # Если файл вообще не найден, возвращаем пустой список, чтобы не падать
+    print(f"WARNING: {fname} not found!")
+    return []
+
 
 setup(
     name=NAME,

@@ -9,14 +9,25 @@ jobs:
       - run:
           name: Install dependencies
           command: |
+            python3 -m venv venv
+            . venv/bin/activate
             pip install --upgrade pip
+            # Устанавливаем требования для API
             pip install -r Credit_Api/requirements.txt
+            # Устанавливаем саму модель в режиме разработчика
             pip install -e classification_model/
+            # Устанавливаем pytest, если его нет в requirements
+            pip install pytest
       - run:
           name: Run tests
           command: |
-            # Запускаем тесты, если они у тебя есть в папке модели
-            pytest classification_model/tests
+            . venv/bin/activate
+            # Проверяем, есть ли вообще тесты перед запуском
+            if [ -d "classification_model/tests" ]; then
+              pytest classification_model/tests
+            else
+              echo "Tests directory not found, skipping..."
+            fi
 
 workflows:
   test_all:

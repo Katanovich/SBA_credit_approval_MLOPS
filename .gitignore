@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.env
+
+# Jupyter Notebooks
+.ipynb_checkpoints
+
+# ML artifacts
+classification_model/trained_models/*.pkl
+classification_model/datasets/*.csv
+!classification_model/datasets/test.csv  # (если хочешь оставить тест для CI)
+
+# OS
+.DS_Store

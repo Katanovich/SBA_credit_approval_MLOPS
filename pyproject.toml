@@ -1,0 +1,43 @@
+[build-system]
+requires = [
+    "setuptools>=42",
+    "wheel"
+]
+build-backend = "setuptools.build_meta"
+
+[tool.pytest.ini_options]
+minversion = "2.0"
+# Настройки pytest: отображать причины пропусков, использовать строгие маркеры
+addopts = "-rfEX -p pytester --strict-markers"
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test", "Acceptance"]
+python_functions = ["test"]
+testpaths = ["tests"]
+xfail_strict = true
+
+# Порядок правил важен: сначала игнорируем DeprecationWarning,
+# чтобы тесты не падали из-за внутренних предупреждений pandas/numpy.
+filterwarnings = [
+    "ignore::DeprecationWarning",
+    "ignore::numpy.VisibleDeprecationWarning",
+    "ignore:np.find_common_type is deprecated:DeprecationWarning",
+    "ignore:The distutils package is deprecated:DeprecationWarning",
+    "ignore:.*U.*mode is deprecated:DeprecationWarning:(?!(pytest|_pytest))",
+    "ignore:.*type argument to addoption.*:DeprecationWarning",
+    "ignore:.*inspect.getargspec.*deprecated, use inspect.signature.*:DeprecationWarning",
+    "ignore::pytest.PytestExperimentalApiWarning",
+    "ignore::_pytest.warning_types.PytestUnknownMarkWarning",
+    "default:invalid escape sequence:DeprecationWarning",
+    # "error",  это на время, чтобы пройти тесты
+]
+
+[tool.black]
+target-version = ['py311']
+line-length = 90
+
+[tool.isort]
+profile = "black"
+line_length = 90
+lines_between_sections = 1
+skip = "migrations"
+

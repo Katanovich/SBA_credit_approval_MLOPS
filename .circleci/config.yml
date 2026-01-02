@@ -2,30 +2,26 @@ version: 2.1
 
 jobs:
   test_model:
+    # ... твой текущий код тестов здесь ...
+
+  build_docker:
     docker:
       - image: cimg/python:3.10
     steps:
       - checkout
+      - setup_remote_docker:
+          version: 20.10.14
       - run:
-          name: Install dependencies
+          name: Build Docker Image
           command: |
-            python3 -m venv venv
-            . venv/bin/activate
-            pip install --upgrade pip
-            # Устанавливаем требования для API
-            pip install -r Credit_Api/requirements.txt
-            # Устанавливаем саму модель в режиме разработчика
-            pip install -e classification_model/
-            # Устанавливаем pytest, если его нет в requirements
-            pip install pytest
-      - run:
-          name: Run tests
-          command: |
-            . venv/bin/activate
-            # Указываем путь к папке тестов явно
-            pytest classification_model/tests -v
+            docker build -t loan-prediction-api:latest .
 
 workflows:
-  test_all:
+  version: 2
+  test-and-build:
     jobs:
       - test_model
+      - build_docker:
+          requires:
+            - test_model # Сборка начнется ТОЛЬКО если 5 тестов прошли
+            

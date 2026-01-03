@@ -35,4 +35,3 @@ def test_prediction_no_errors_key():
     results = make_prediction(input_data=BASE_DATA)
     assert "errors" in results
     assert results["errors"] is None
-    

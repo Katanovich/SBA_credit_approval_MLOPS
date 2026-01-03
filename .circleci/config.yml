@@ -33,7 +33,7 @@ jobs:
       - image: cimg/python:3.10
     steps:
       - checkout
-      # Убрали конкретную версию, чтобы CircleCI выбрал лучшую сам
+
       - setup_remote_docker
       - run:
           name: Build Docker Image
@@ -48,4 +48,3 @@ workflows:
       - build_docker:
           requires:
             - run_tests
-            

@@ -5,8 +5,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 from loguru import logger
 
-from app.api import api_router
-from app.config import settings, setup_app_logging
+# ИСПРАВЛЕНО: Добавлены точки для относительного импорта внутри пакета app
+from .api import api_router
+from .config import settings, setup_app_logging
 
 # setup logging as early as possible
 setup_app_logging(config=settings)
@@ -51,8 +52,8 @@ if settings.BACKEND_CORS_ORIGINS:
 
 
 if __name__ == "__main__":
-    # Use this for debugging purposes only
+    # Исправлено для локального запуска через python app/main.py
     logger.warning("Running in development mode. Do not run like this in production.")
     import uvicorn
 
-    uvicorn.run(app, host="localhost", port=8000, log_level="debug")
+    uvicorn.run(app, host="0.0.0.0", port=8000, log_level="debug")

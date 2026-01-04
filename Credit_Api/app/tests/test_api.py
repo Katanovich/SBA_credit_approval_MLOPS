@@ -15,7 +15,7 @@ def test_make_prediction(sample_input_data):
 
     # When
     response = client.post(
-        "http://localhost:8001/predict",
+        "http://localhost:8000/predict",
         json=payload,
     )
 

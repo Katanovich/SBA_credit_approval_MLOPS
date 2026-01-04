@@ -34,7 +34,7 @@ class MultipleSBADataInputs(BaseModel):
                         "LowDoc": "N",
                         "GrAppv": 480000,
                         "SBA_Appv": 360000,
-                        "MIS_Status": "P I F"
+                       # "MIS_Status": "P I F"
                     }
                 ]
             }

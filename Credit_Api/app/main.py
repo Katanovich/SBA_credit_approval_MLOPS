@@ -1,59 +1,27 @@
-from typing import Any
-
-from fastapi import APIRouter, FastAPI, Request
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import HTMLResponse
-from loguru import logger
 
-# ИСПРАВЛЕНО: Добавлены точки для относительного импорта внутри пакета app
-from .api import api_router
-from .config import settings, setup_app_logging
-
-# setup logging as early as possible
-setup_app_logging(config=settings)
-
+from app.api.router import api_router
+from app import __version__
 
 app = FastAPI(
-    title=settings.PROJECT_NAME, openapi_url=f"{settings.API_V1_STR}/openapi.json"
+    title="SBA Loan API",
+    version=__version__,
 )
 
-root_router = APIRouter()
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
-@root_router.get("/")
-def index(request: Request) -> Any:
-    """Basic HTML response."""
-    body = (
-        "<html>"
-        "<body style='padding: 10px;'>"
-        "<h1>Welcome to the API!!!</h1>"
-        "<div>"
-        "Check the docs: <a href='/docs'>here</a>"
-        "</div>"
-        "</body>"
-        "</html>"
-    )
+# Health check — ОБЯЗАТЕЛЬНО для AWS
+@app.get("/health")
+def health():
+    return {"status": "ok"}
 
-    return HTMLResponse(content=body)
-
-
-app.include_router(api_router, prefix=settings.API_V1_STR)
-app.include_router(root_router)
-
-# Set all CORS enabled origins
-if settings.BACKEND_CORS_ORIGINS:
-    app.add_middleware(
-        CORSMiddleware,
-        allow_origins=[str(origin) for origin in settings.BACKEND_CORS_ORIGINS],
-        allow_credentials=True,
-        allow_methods=["*"],
-        allow_headers=["*"],
-    )
-
-
-if __name__ == "__main__":
-    # Исправлено для локального запуска через python app/main.py
-    logger.warning("Running in development mode. Do not run like this in production.")
-    import uvicorn
-
-    uvicorn.run(app, host="0.0.0.0", port=8000, log_level="debug")
+# API routes
+app.include_router(api_router)

@@ -2,12 +2,12 @@ import pytest
 from sklearn.model_selection import train_test_split
 
 from classification_model.config.core import config
-from classification_model.processing.data_manager import _load_raw_dataset
+from classification_model.processing.data_manager import load_dataset  # ИСПРАВЛЕНО
 
 
 @pytest.fixture
 def sample_input_data():
-    data = _load_raw_dataset(file_name=config.app_config.raw_data_file)
+    data = load_dataset(file_name=config.app_config.raw_data_file)
 
     X_train, X_test, y_train, y_test = train_test_split(
         data,

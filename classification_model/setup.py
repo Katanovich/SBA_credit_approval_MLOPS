@@ -2,12 +2,13 @@
 # -*- coding: utf-8 -*-
 
 from pathlib import Path
+
 from setuptools import find_packages, setup
 
 # Package meta-data.
-NAME = 'classification_model'
+NAME = "classification_model"
 DESCRIPTION = "Example of classification model"
-URL = "https://github.com/Katanovich/SBA_credit_approval_MLOPS" # Твой репозиторий
+URL = "https://github.com/Katanovich/SBA_credit_approval_MLOPS"  # Твой репозиторий
 EMAIL = "vera-vla.edu@gmail.com"
 AUTHOR = "Khegay, Kim, Kim"
 REQUIRES_PYTHON = ">=3.7.0"
@@ -21,7 +22,7 @@ ROOT_DIR = Path(__file__).resolve().parent
 PACKAGE_DIR = ROOT_DIR
 
 
-REQUIREMENTS_DIR = ROOT_DIR / 'requirements'
+REQUIREMENTS_DIR = ROOT_DIR / "requirements"
 
 
 # Чтение версии
@@ -43,7 +44,7 @@ def list_reqs(fname="requirements.txt"):
     possible_paths = [
         ROOT_DIR / fname,
         ROOT_DIR / "requirements" / fname,
-        ROOT_DIR / "classification_model" / fname
+        ROOT_DIR / "classification_model" / fname,
     ]
 
     for path in possible_paths:

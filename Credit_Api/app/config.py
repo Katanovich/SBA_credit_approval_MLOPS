@@ -8,7 +8,7 @@ from pydantic import AnyHttpUrl, BaseSettings
 
 
 class LoggingSettings(BaseSettings):
-    LOGGING_LEVEL: int = logging.INFO  # logging levels are type int
+    LOGGING_LEVEL: int = logging.INFO
 
 
 class Settings(BaseSettings):
@@ -17,8 +17,6 @@ class Settings(BaseSettings):
     # Meta
     logging: LoggingSettings = LoggingSettings()
 
-    # BACKEND_CORS_ORIGINS is a comma-separated list of origins
-    # e.g: http://localhost,http://localhost:4200,http://localhost:3000
     BACKEND_CORS_ORIGINS: List[AnyHttpUrl] = [
         "http://localhost:3000",  # type: ignore
         "http://localhost:8000",  # type: ignore
@@ -32,7 +30,6 @@ class Settings(BaseSettings):
         case_sensitive = True
 
 
-# See: https://loguru.readthedocs.io/en/stable/overview.html#entirely-compatible-with-standard-logging  # noqa
 class InterceptHandler(logging.Handler):
     def emit(self, record: logging.LogRecord) -> None:  # pragma: no cover
         # Get corresponding Loguru level if it exists
@@ -54,7 +51,6 @@ class InterceptHandler(logging.Handler):
 
 
 def setup_app_logging(config: Settings) -> None:
-    """Prepare custom logging for our application."""
 
     LOGGERS = ("uvicorn.asgi", "uvicorn.access")
     logging.getLogger().handlers = [InterceptHandler()]

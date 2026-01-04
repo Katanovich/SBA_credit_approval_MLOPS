@@ -2,7 +2,6 @@ from sklearn.base import BaseEstimator, TransformerMixin
 
 
 class ExtractLetterTransformer(BaseEstimator, TransformerMixin):
-    # Extract first letter of variable
 
     def __init__(self, variables):
 
@@ -17,7 +16,7 @@ class ExtractLetterTransformer(BaseEstimator, TransformerMixin):
 
     def transform(self, X):
 
-        # so that we do not over-write the original dataframe
+
         X = X.copy()
 
         for feature in self.variables:

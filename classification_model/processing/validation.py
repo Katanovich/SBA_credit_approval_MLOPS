@@ -9,15 +9,12 @@ from classification_model.processing.data_manager import pre_pipeline_preparatio
 
 
 def validate_inputs(*, input_data: pd.DataFrame) -> Tuple[pd.DataFrame, Optional[dict]]:
-    # 1. Пре-обработка (здесь считаются CityRiskGroup, SBA_ratio и т.д.)
     pre_processed = pre_pipeline_preparation(dataframe=input_data)
 
-    # 2. Оставляем только те признаки, которые нужны модели для предсказания
     validated_data = pre_processed[config.model_config.features].copy()
     errors = None
 
     try:
-        # Валидация итогового набора данных
         MultipleSBADataInputs(
             inputs=validated_data.replace({np.nan: None}).to_dict(orient="records")
         )

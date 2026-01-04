@@ -11,17 +11,17 @@ Production-ready ML service for predicting loan defaults based on SBA (Small Bus
 
 ## 🚀 Getting Started
 
-### Using Docker (Recommended)
+### Using Docker 
 ```bash
 docker build -t sba-loan-api .
-docker run -p 8001:8001 sba-loan-api
+docker run -p 8000:8000 sba-loan-api
 
 Manual Installation
 Bash
 
 pip install -r Credit_Api/requirements.txt
 export PYTHONPATH=$PYTHONPATH:./Credit_Api
-uvicorn Credit_Api.app.main:app --host 0.0.0.0 --port 8001
+uvicorn Credit_Api.app.main:app --host 0.0.0.0 --port 8000
 🧪 Testing & CI/CD
 Automated tests are handled by CircleCI. Each commit triggers:
 

@@ -14,4 +14,4 @@ classification_model/datasets/*.csv
 !classification_model/datasets/test.csv  # (если хочешь оставить тест для CI)
 
 # OS
-.DS_Store
+.DS_Store.DS_Store

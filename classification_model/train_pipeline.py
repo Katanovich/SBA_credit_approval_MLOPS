@@ -3,6 +3,12 @@ from sklearn.model_selection import train_test_split
 from classification_model.config.core import config
 from classification_model.pipeline import xgb
 from classification_model.processing.data_manager import load_dataset, save_pipeline
+import warnings
+warnings.filterwarnings(
+    "ignore",
+    category=FutureWarning,
+    module="feature_engine"
+)
 
 
 def run_training() -> None:
@@ -12,8 +18,6 @@ def run_training() -> None:
 
     # read training data
     data = load_dataset(file_name=config.app_config.raw_data_file)
-    print("Training has been started!!!")
-    print("Training has been started!!!")
     print("Training has been started!!!")
     print("=============================")
     print("Please wait...")
@@ -37,6 +41,4 @@ def run_training() -> None:
 
 if __name__ == "__main__":
     run_training()
-print("Training Complete!!!")
-print("Training Complete!!!")
 print("Training Complete!!!")

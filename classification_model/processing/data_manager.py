@@ -12,7 +12,6 @@ from classification_model.config.core import DATASET_DIR, TRAINED_MODEL_DIR, con
 
 logger = logging.getLogger(__name__)
 
-# --- Вспомогательные функции (обязательно должны быть в файле) ---
 
 
 def group_by_first2_numeric(df, col):
@@ -89,9 +88,6 @@ def clean_currency(df, columns):
     return df
 
 
-# --- Основные функции ---
-
-
 def pre_pipeline_preparation(*, dataframe: pd.DataFrame) -> pd.DataFrame:
     data = dataframe.copy()
     is_training = "MIS_Status" in data.columns
@@ -124,16 +120,6 @@ def load_dataset(*, file_name: str) -> pd.DataFrame:
     dataframe = pd.read_csv(Path(f"{DATASET_DIR}/{file_name}"), low_memory=False)
     transformed = pre_pipeline_preparation(dataframe=dataframe)
     return transformed
-
-
-# --- Функции сохранения и загрузки (ИХ НЕ ХВАТАЛО) ---
-
-# def save_pipeline(*, pipeline_to_persist: Pipeline) -> None:
-#     save_file_name = f"{config.app_config.pipeline_save_file}{_version}.pkl"
-#     save_path = TRAINED_MODEL_DIR / save_file_name
-#     remove_old_pipelines(files_to_keep=[save_file_name])
-#     joblib.dump(pipeline_to_persist, save_path)
-#     print(f"Pipeline saved at: {save_path}")
 
 
 def save_pipeline(*, pipeline_to_persist: Pipeline) -> None:

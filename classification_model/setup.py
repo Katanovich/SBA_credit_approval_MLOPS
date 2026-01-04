@@ -8,9 +8,9 @@ from setuptools import find_packages, setup
 # Package meta-data.
 NAME = "classification_model"
 DESCRIPTION = "Example of classification model"
-URL = "https://github.com/Katanovich/SBA_credit_approval_MLOPS"  # Твой репозиторий
-EMAIL = "vera-vla.edu@gmail.com"
-AUTHOR = "Khegay, Kim, Kim"
+URL = "https://github.com/Katanovich/SBA_credit_approval_MLOPS"
+EMAIL = "kolobok2812@gmail.com"
+AUTHOR = "Kim, Pak, Khegay"
 REQUIRES_PYTHON = ">=3.7.0"
 
 long_description = DESCRIPTION
@@ -36,10 +36,6 @@ with open(VERSION_PATH) as f:
 
 
 def list_reqs(fname="requirements.txt"):
-    # Проверяем 3 места, где может лежать файл:
-    # 1. Прямо в папке с setup.py
-    # 2. В папке requirements/ рядом с setup.py
-    # 3. Во вложенной папке classification_model/
 
     possible_paths = [
         ROOT_DIR / fname,
@@ -52,7 +48,6 @@ def list_reqs(fname="requirements.txt"):
             with open(path) as fd:
                 return fd.read().splitlines()
 
-    # Если файл вообще не найден, возвращаем пустой список, чтобы не падать
     print(f"WARNING: {fname} not found!")
     return []
 

@@ -33,7 +33,7 @@ def test_make_prediction_returns_correct_format():
     assert isinstance(results.get("predictions"), (list, np.ndarray))
 
 
-# ТЕСТ 2: Проверка конкретного значения (Dummy модель выдает 1)
+# ТЕСТ 2: Проверка конкретного значения
 def test_prediction_output_value():
     results = make_prediction(input_data=BASE_DATA)
     # Теперь тест пройдет, так как 0 == 0

@@ -16,7 +16,7 @@ jobs:
             python3 -m venv venv
             . venv/bin/activate
             pip install --upgrade pip
-            # Устанавливаем зависимости МОДЕЛИ (где лежит xgboost)
+            # Устанавливаем зависимости МОДЕЛИ
             pip install -r requirements/requirements.txt
             # Устанавливаем зависимости API
             pip install -r Credit_Api/requirements.txt
@@ -29,6 +29,9 @@ jobs:
           name: Run Pytest
           command: |
             . venv/bin/activate
+            # Добавляем текущую директорию в путь поиска модулей
+            export PYTHONPATH=$PYTHONPATH:. 
+            # Запуск тестов модели
             python3 -m pytest classification_model/tests -v --log-cli-level=INFO
 
   build_docker:
@@ -36,11 +39,11 @@ jobs:
       - image: cimg/python:3.10
     steps:
       - checkout
-
       - setup_remote_docker
       - run:
           name: Build Docker Image
           command: |
+            # Собираем образ с тегом
             docker build -t loan-prediction-api:latest .
 
 workflows:
@@ -51,3 +54,4 @@ workflows:
       - build_docker:
           requires:
             - run_tests
+            

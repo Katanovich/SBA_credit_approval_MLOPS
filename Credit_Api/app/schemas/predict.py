@@ -33,8 +33,7 @@ class MultipleSBADataInputs(BaseModel):
                         "RevLineCr": "N",
                         "LowDoc": "N",
                         "GrAppv": 480000,
-                        "SBA_Appv": 360000,
-                       # "MIS_Status": "P I F"
+                        "SBA_Appv": 360000
                     }
                 ]
             }
